@@ -1,25 +1,42 @@
+import 'package:dictionary_web/service/auth.dart';
 import 'package:flutter/material.dart';
-import 'package:passwordfield/passwordfield.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  bool hidePassword = true;
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  AuthService authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Column(
+        body: Container(
+      decoration: const BoxDecoration(
+          gradient: LinearGradient(
+              tileMode: TileMode.clamp,
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Colors.white, Colors.grey])),
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const SizedBox(
+          SizedBox(
             width: 275,
             height: 45,
             child: TextField(
-              style: TextStyle(
+              controller: emailController,
+              style: const TextStyle(
                 fontSize: 17,
                 color: Colors.black,
               ),
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   prefixIcon: Icon(Icons.person),
                   hintText: "E-mail",
                   labelText: "E-mail",
@@ -31,40 +48,63 @@ class LoginPage extends StatelessWidget {
           SizedBox(
             width: 275,
             height: 45,
-            child: PasswordField(
-              color: Colors.blue,
-              passwordConstraint: r'.*[@$#.*].*',
-              hintText: 'must have special characters',
-              border: PasswordBorder(
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.blue.shade100,
-                  ),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.blue.shade100,
-                  ),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                focusedErrorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(width: 2, color: Colors.red.shade200),
-                ),
+            child: TextField(
+              controller: passwordController,
+              style: const TextStyle(
+                fontSize: 17,
+                color: Colors.black,
               ),
-              errorMessage: 'must contain special character either . _ - \$',
+              obscureText: hidePassword,
+              decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.key_sharp),
+                  suffixIcon: IconButton(
+                    icon: hidePassword == true
+                        ? const Icon(Icons.visibility_off)
+                        : const Icon(Icons.visibility),
+                    onPressed: () {
+                      setState(() {
+                        hidePassword = !hidePassword;
+                      });
+                    },
+                  ),
+                  hintText: "Password",
+                  labelText: "Password",
+                  border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(4)))),
             ),
           ),
-          Padding(padding: EdgeInsets.all(10)),
+          const Padding(padding: EdgeInsets.all(10)),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(onPressed: () {}, child: const Text("Sign in")),
-              ElevatedButton(onPressed: () {}, child: const Text("Sign up"))
+              ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.black54),
+                ),
+                onPressed: () {},
+                child: const Text(
+                  "Sign in",
+                  style: TextStyle(color: Colors.white, fontSize: 15),
+                ),
+              ),
+              Padding(padding: EdgeInsets.all(5)),
+              ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.black54),
+                  ),
+                  onPressed: () {
+                    authService
+                        .signIn(emailController.text, passwordController.text)
+                        .then((value) => print("giriş yapıldı"));
+                  },
+                  child: const Text(
+                    "Sign up",
+                    style: TextStyle(color: Colors.white, fontSize: 15),
+                  ))
             ],
           )
         ],
       ),
-    ]));
+    ));
   }
 }

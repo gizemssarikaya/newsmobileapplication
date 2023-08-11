@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp(
+  await Firebase.initializeApp(
       options: const FirebaseOptions(
           apiKey: "AIzaSyB2N7eNGw0CSPcTnH3w14PGYXMKdYhHYmY",
           appId: "1:1022129170611:web:5645f316c0daeb703628c6",
@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
