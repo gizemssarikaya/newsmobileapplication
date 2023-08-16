@@ -1,8 +1,9 @@
-import 'package:dictionary_web/page/first_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'controller/login_controller.dart';
+
+import 'controller/home_controller.dart';
+import 'views/home_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,7 +19,7 @@ void main() async {
 }
 
 void setupDependency() {
-  Get.put<LoginController>(LoginController());
+  Get.put<HomeController>(HomeController());
 }
 
 class MyApp extends StatelessWidget {
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: FirstPage(),
+      home: const HomeView(),
     );
   }
 }

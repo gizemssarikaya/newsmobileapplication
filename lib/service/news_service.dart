@@ -1,40 +1,29 @@
-import 'package:dictionary_web/models/news.dart';
 import 'package:dio/dio.dart';
 
-class news_Service {
+import '../models/news.dart';
+
+class NewsService {
   late Dio dio;
-  late List<dynamic> items;
-  late List<News> objects;
-  news_Service()  {
+
+  NewsService() {
     dio = Dio();
-    items = [];
-    objects = [];
-    initializeService();
   }
 
-  Future<void> initializeService() async {
-    await getHttp();
-    await resultstomap();
-  }
+  Future<List<News>> getNews() async {
+    final newsList = <News>[];
 
-  List items2 = [];
+    final response = await dio.get("https://api.nytimes.com/svc/mostpopular/v2/viewed/7.json?api-key=opyjc45w8PyS7pAcJGGX2frsi3xQQuz0");
 
-  Future getHttp() async {
-    var response = await dio.get(
-        "https://api.nytimes.com/svc/mostpopular/v2/viewed/7.json?api-key=opyjc45w8PyS7pAcJGGX2frsi3xQQuz0");
+    if (response.statusCode == 200) {
+      final data = response.data['results'] as List<dynamic>;
 
-    items = response.data['results'];
-  }
+      for (final item in data) {
+        final model = News.fromJson(item);
 
-  Future resultstomap() async {
-    print('service' );
-    print(items.length);
-    for (int i = 0; i < items.length; i++) {
-      final object = News(
-          id: items[i]['id'],
-          title: items[i]['title'],
-          abstract: items[i]['abstract']);
-      objects.add(object);
+        newsList.add(model);
+      }
     }
+
+    return newsList;
   }
 }

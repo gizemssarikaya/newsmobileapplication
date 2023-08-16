@@ -6,8 +6,10 @@ import 'package:dictionary_web/controller/login_controller.dart';
 // ignore: must_be_immutable
 class LoginPage extends GetView<LoginController> {
   LoginPage({super.key});
+
   @override
   late LoginController controller;
+
   @override
   Widget build(BuildContext context) {
     controller = Get.put(LoginController());
@@ -30,8 +32,8 @@ class LoginPage extends GetView<LoginController> {
   }
 
   Future<String?>? onLogin(LoginData data) async {
-    await controller.errorMesaggeControl(data.name, data.password);
-    // await authService.signIn(data.name, data.password);
+    // await controller.errorMesaggeControl(data.name, data.password);
+    // // await authService.signIn(data.name, data.password);
     return null;
   }
 
