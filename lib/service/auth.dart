@@ -1,17 +1,36 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 class AuthService {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  late FirebaseAuth auth;
+  AuthService() {
+    auth = FirebaseAuth.instance;
+  }
 
-  Future<User?> signIn(String email, String password) async {
-    var user = await _auth.signInWithEmailAndPassword(
-        email: email, password: password);
-    return user.user;
+  Future<String?> signIn(String email, String password) async {
+    try {
+      final user = await auth.signInWithEmailAndPassword(
+          email: email, password: password);
+
+      return null;
+    } on FirebaseAuthException catch (exception) {
+      debugPrint(exception.toString());
+
+      return 'Hata çıktı';
+    } on Exception catch (exception) {
+      debugPrint(exception.toString());
+
+      return 'Hata çıktı';
+    }
+  }
+
+  Future<String?> createPerson(String email, String password) async {
+    await auth.createUserWithEmailAndPassword(email: email, password: password);
+
+    return null;
   }
 
   signout() async {
-    return await _auth.signOut();
+    return await auth.signOut();
   }
 }

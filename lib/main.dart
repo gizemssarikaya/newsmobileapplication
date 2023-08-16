@@ -1,6 +1,8 @@
-import 'package:dictionary_web/page/login_page.dart';
+import 'package:dictionary_web/page/first_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'controller/login_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -10,7 +12,13 @@ void main() async {
           appId: "1:1022129170611:web:5645f316c0daeb703628c6",
           messagingSenderId: "1022129170611",
           projectId: "dictionary-45f24"));
+  setupDependency();
+
   runApp(const MyApp());
+}
+
+void setupDependency() {
+  Get.put<LoginController>(LoginController());
 }
 
 class MyApp extends StatelessWidget {
@@ -18,13 +26,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        home: LoginPage());
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: FirstPage(),
+    );
   }
 }
