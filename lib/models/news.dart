@@ -7,8 +7,17 @@ class News {
   int? id;
   String title;
   String abstract;
+  String publishedDate;
+  String smallPicture;
+  String bigPicture;
 
-  News({this.id, required this.title, required this.abstract});
+  News(
+      {this.id,
+      required this.title,
+      required this.abstract,
+      required this.publishedDate,
+      required this.smallPicture,
+      required this.bigPicture});
 
   factory News.fromJson(Map<String, dynamic> json) => _$NewsFromJson(json);
 

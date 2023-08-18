@@ -5,16 +5,16 @@ import '../models/news.dart';
 
 class HomeController extends GetxController {
   final newsList = RxList<News>([]);
+  final Map<int, RxBool> isExpandedMap = {};
 
-  final _isExpanded = RxBool(false);
+  final _isExpanded = RxBool(true);
 
   bool get isExpanded => _isExpanded.value;
 
   set isExpanded(bool value) => _isExpanded.value = value;
 
-}
-
   late NewsService service;
+
   @override
   Future<void> onInit() async {
     super.onInit();
@@ -30,12 +30,7 @@ class HomeController extends GetxController {
     newsList.addAll(news);
   }
 
-  void changeisExpanded(){
-     if(isExpansion==true){
-       isExpansion=false;
-     }
-     else if (isExpansion==false){
-       isExpansion=true;
-     }
+  void changeisExpanded(bool status) {
+    isExpanded = !status;
   }
 }

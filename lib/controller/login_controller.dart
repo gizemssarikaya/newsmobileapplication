@@ -1,8 +1,6 @@
 
-import 'package:dictionary_web/service/auth.dart';
 import 'package:get/get.dart';
 
-import '../models/news.dart';
 
 class LoginController extends GetxController {
   // late AuthService authService;
