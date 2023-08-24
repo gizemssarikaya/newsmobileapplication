@@ -21,7 +21,9 @@ class HomeView extends GetView<HomeController> {
             Icons.logout_sharp,
             color: Colors.white,
           ),
-          onPressed: () {},
+          onPressed: () async {
+            await controller.signOut();
+          },
         ),
       ),
       body: Obx(() => ListView.builder(
@@ -60,13 +62,15 @@ class HomeView extends GetView<HomeController> {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(21)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(21)),
                             border: Border.all(
                               color: Colors.black,
                               width: 2,
                             )),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(20)),
                           child: Image.network(
                             currentNews.bigPicture,
                             fit: BoxFit.fill,
@@ -75,10 +79,10 @@ class HomeView extends GetView<HomeController> {
                       ),
                       const Padding(padding: EdgeInsets.all(10)),
                       Container(
-                          padding: EdgeInsets.all(4),
+                          padding: const EdgeInsets.all(4),
                           decoration: BoxDecoration(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(15)),
+                                  const BorderRadius.all(Radius.circular(15)),
                               border: Border.all(
                                 width: 1,
                                 color: Colors.black,

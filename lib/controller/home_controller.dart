@@ -1,26 +1,42 @@
 import 'package:dictionary_web/service/news_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 import '../models/news.dart';
+import 'login_controller.dart';
 
 class HomeController extends GetxController {
+  late FirebaseAuth auth;
+
   final newsList = RxList<News>([]);
-  final Map<int, RxBool> isExpandedMap = {};
-
-  final _isExpanded = RxBool(true);
-
-  bool get isExpanded => _isExpanded.value;
-
-  set isExpanded(bool value) => _isExpanded.value = value;
 
   late NewsService service;
+
+  final _initialRoute = RxString('/');
+
+  String get initialRoute => _initialRoute.value;
+
+  set initialRoute(String value) => _initialRoute.value = value;
+
+  late LoginController loginController;
 
   @override
   Future<void> onInit() async {
     super.onInit();
 
+    auth = FirebaseAuth.instance;
+    loginController = Get.put<LoginController>(LoginController());
+
     service = NewsService();
     await loadNews();
+  }
+
+  void checkUser() {
+    final user = auth.currentUser;
+
+    if (user == null) {
+      initialRoute = '/login';
+    }
   }
 
   Future<void> loadNews() async {
@@ -30,7 +46,7 @@ class HomeController extends GetxController {
     newsList.addAll(news);
   }
 
-  void changeisExpanded(bool status) {
-    isExpanded = !status;
+  Future<void> signOut() async{
+   await loginController.signOut();
   }
 }
